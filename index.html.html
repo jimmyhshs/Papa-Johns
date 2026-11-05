@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Papa John's Pizza - Better Ingredients. Better Pizza.</title>
+    
+    <!-- Google Fonts 폰트 불러오기 (영문 및 국문 폰트) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind 설정 (브랜드 컬러 커스텀) -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        papa: {
+                            red: '#c8102e',
+                            green: '#005a3c',
+                            white: '#ffffff',
+                            light: '#f5f5f5',
+                            dark: '#333333'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Noto Sans KR"', 'sans-serif'],
+                        display: ['"Oswald"', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* 부드러운 스크롤 효과 */
+        html {
+            scroll-behavior: smooth;
+        }
+        /* 이미지 플레이스홀더를 조금 더 예쁘게 보이게 하기 위한 스타일 */
+        .pizza-img-wrapper {
+            position: relative;
+            width: 100%;
+            padding-top: 75%; /* 4:3 Aspect Ratio */
+            overflow: hidden;
+        }
+        .pizza-img-wrapper img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body class="bg-papa-light text-papa-dark font-sans antialiased">
+
+    <!-- 1. Sticky Header -->
+    <header class="sticky top-0 z-50 bg-papa-white shadow-md w-full border-b-[3px] border-papa-green">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                
+                <!-- 로고 -->
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="#" class="text-3xl font-display font-bold text-papa-red tracking-wide uppercase flex items-center gap-2">
+                        <!-- 피자 조각 모양의 간단한 SVG 아이콘 -->
+                        <svg class="w-8 h-8 text-papa-green" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C10 2 2 12 2 12s2.5 10 10 10 10-10 10-10S14 2 12 2zm0 18c-4.41 0-8-3.59-8-8 0-.41.08-.8.2-1.18L12 19.59l7.8-8.77c.12.38.2.77.2 1.18 0 4.41-3.59 8-8 8z"/>
+                        </svg>
+                        PAPA JOHN'S
+                    </a>
+                </div>
+
+                <!-- 데스크톱 네비게이션 -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#menu" class="text-papa-green hover:text-papa-red px-3 py-2 rounded-md text-lg font-bold transition-colors">Menu (메뉴)</a>
+                    <a href="#store" class="text-papa-green hover:text-papa-red px-3 py-2 rounded-md text-lg font-bold transition-colors">Store (매장)</a>
+                    <a href="#event" class="text-papa-green hover:text-papa-red px-3 py-2 rounded-md text-lg font-bold transition-colors">Event (이벤트)</a>
+                </nav>
+
+                <!-- 우측 상단 유틸리티 버튼 -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <button class="bg-papa-red text-papa-white px-5 py-2 rounded-full font-bold hover:bg-red-800 transition-colors shadow-sm">로그인</button>
+                </div>
+
+                <!-- 모바일 메뉴 버튼 (햄버거 아이콘) -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-papa-green hover:text-papa-red focus:outline-none p-2">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 모바일 네비게이션 (기본적으로 숨겨짐) -->
+        <div id="mobile-menu" class="md:hidden hidden bg-papa-white border-t border-gray-200">
+            <div class="px-4 pt-2 pb-6 space-y-2">
+                <a href="#menu" class="block px-3 py-3 text-base font-bold text-papa-green hover:bg-gray-50 hover:text-papa-red rounded-md">Menu (메뉴)</a>
+                <a href="#store" class="block px-3 py-3 text-base font-bold text-papa-green hover:bg-gray-50 hover:text-papa-red rounded-md">Store (매장)</a>
+                <a href="#event" class="block px-3 py-3 text-base font-bold text-papa-green hover:bg-gray-50 hover:text-papa-red rounded-md">Event (이벤트)</a>
+                <button class="w-full text-center mt-4 bg-papa-red text-papa-white px-5 py-3 rounded-full font-bold hover:bg-red-800 transition-colors">로그인</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. Hero Banner Section -->
+    <!-- 배경 이미지 대신 브랜드 컬러 그라데이션 사용, 텍스트가 눈에 잘 띄도록 설계 -->
+    <section class="relative bg-gradient-to-br from-papa-red to-red-900 text-papa-white overflow-hidden">
+        <div class="absolute inset-0 opacity-10">
+            <!-- 배경 패턴 디자인 요소 -->
+            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                <defs><pattern id="pattern" width="40" height="40" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="2" fill="#ffffff"/></pattern></defs><rect width="100%" height="100%" fill="url(#pattern)"/>
+            </svg>
+        </div>
+        
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 flex flex-col md:flex-row items-center">
+            <div class="w-full md:w-1/2 text-center md:text-left">
+                <span class="inline-block py-1 px-3 rounded-full bg-papa-white text-papa-red font-bold text-sm mb-6 uppercase tracking-wider">Limited Time Offer</span>
+                <h1 class="text-5xl md:text-7xl font-display font-bold uppercase italic leading-tight mb-6 text-shadow-lg">
+                    신제품 출시 기념<br>
+                    <span class="text-yellow-300">최대 30%</span> 할인!
+                </h1>
+                <p class="text-xl md:text-2xl mb-10 text-red-100 font-medium max-w-lg mx-auto md:mx-0">
+                    좋은 재료로 만든 피자를 가장 맛있는 순간에.<br>지금 바로 주문하고 특별한 혜택을 누리세요!
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                    <a href="#menu" class="bg-papa-green text-papa-white font-bold text-xl py-4 px-10 rounded-full hover:bg-[#00422c] transition-all transform hover:-translate-y-1 shadow-[0_10px_20px_rgba(0,90,60,0.4)] text-center">
+                        Order Now (지금 주문)
+                    </a>
+                </div>
+            </div>
+            
+            <!-- 우측 히어로 이미지 공간 (플레이스홀더) -->
+            <div class="w-full md:w-1/2 mt-12 md:mt-0 flex justify-center">
+                <div class="relative rounded-full bg-yellow-300 p-2 shadow-2xl animate-pulse">
+                    <img src="https://placehold.co/600x600/ffffff/c8102e?text=Delicious+Pizza+Here" alt="Hero Pizza" class="rounded-full w-72 h-72 md:w-96 md:h-96 object-cover border-8 border-papa-white">
+                    <div class="absolute -bottom-6 -right-6 bg-papa-green text-white w-28 h-28 rounded-full flex items-center justify-center font-display font-bold text-2xl rotate-12 shadow-xl border-4 border-white">
+                        HOT!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Pizza Menu Section (CSS Grid 필수 사용) -->
+    <section id="menu" class="py-20 px-4 sm:px-6 lg:px-8 bg-papa-white">
+        <div class="max-w-7xl mx-auto">
+            
+            <!-- 섹션 헤더 -->
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-display font-bold text-papa-green mb-4 uppercase">Our Pizzas</h2>
+                <div class="w-24 h-1 bg-papa-red mx-auto mb-6"></div>
+                <p class="text-gray-500 text-lg">파파존스의 베스트셀러 피자를 만나보세요.</p>
+            </div>
+
+            <!-- CSS Grid 메뉴 레이아웃 -->
+            <!-- 모바일 1열, 태블릿 2열, 데스크톱 3열 반응형 그리드 -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+                
+                <!-- 1. 수퍼 파파스 (Super Papa's) -->
+                <article class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 flex flex-col group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="pizza-img-wrapper overflow-hidden bg-gray-100">
+                        <img src="https://placehold.co/800x600/f5f5f5/c8102e?text=Super+Papa's" alt="수퍼 파파스" class="group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute top-4 left-4 bg-papa-red text-white text-xs font-bold px-3 py-1 rounded-full uppercase">Best Seller</div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-2xl font-bold text-papa-dark font-display">수퍼 파파스<br><span class="text-base text-gray-400 font-sans font-normal">Super Papa's</span></h3>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-6 flex-grow leading-relaxed">
+                            고기, 야채가 듬뿍 토핑된 파파존스의 명품 피자! 페퍼로니, 이탈리안 소시지, 양파, 청피망, 양송이 버섯, 블랙 올리브가 조화롭게 어우러진 맛.
+                        </p>
+                        <div class="flex items-center justify-between mt-auto pt-4 border-t border-gray-100">
+                            <span class="text-2xl font-black text-papa-red tracking-tight">L 28,500원</span>
+                            <button class="bg-papa-green text-papa-white px-4 py-2 rounded-lg font-bold hover:bg-[#00422c] transition-colors flex items-center gap-2">
+                                담기
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 2. 아이리쉬 포테이토 (Irish Potato) -->
+                <article class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 flex flex-col group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="pizza-img-wrapper overflow-hidden bg-gray-100">
+                        <img src="https://placehold.co/800x600/f5f5f5/005a3c?text=Irish+Potato" alt="아이리쉬 포테이토" class="group-hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-2xl font-bold text-papa-dark font-display">아이리쉬 포테이토<br><span class="text-base text-gray-400 font-sans font-normal">Irish Potato</span></h3>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-6 flex-grow leading-relaxed">
+                            진한 갈릭 소스와 담백한 감자의 달콤한 만남! 포슬포슬한 큐브 감자와 갈릭 향이 가득한 매력적인 피자.
+                        </p>
+                        <div class="flex items-center justify-between mt-auto pt-4 border-t border-gray-100">
+                            <span class="text-2xl font-black text-papa-red tracking-tight">L 27,500원</span>
+                            <button class="bg-papa-green text-papa-white px-4 py-2 rounded-lg font-bold hover:bg-[#00422c] transition-colors flex items-center gap-2">
+                                담기
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 3. 존스 페이버릿 (John's Favorite) -->
+                <article class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 flex flex-col group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="pizza-img-wrapper overflow-hidden bg-gray-100">
+                        <img src="https://placehold.co/800x600/f5f5f5/c8102e?text=John's+Favorite" alt="존스 페이버릿" class="group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute top-4 left-4 bg-yellow-400 text-papa-dark text-xs font-bold px-3 py-1 rounded-full uppercase">Signature</div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-2xl font-bold text-papa-dark font-display">존스 페이버릿<br><span class="text-base text-gray-400 font-sans font-normal">John's Favorite</span></h3>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-6 flex-grow leading-relaxed">
+                            파파존스 창립자 존 슈내터가 가장 사랑하는 피자! 이탈리안 소시지, 페퍼로니, 6종의 치즈가 만들어내는 진한 미국의 맛.
+                        </p>
+                        <div class="flex items-center justify-between mt-auto pt-4 border-t border-gray-100">
+                            <span class="text-2xl font-black text-papa-red tracking-tight">L 29,500원</span>
+                            <button class="bg-papa-green text-papa-white px-4 py-2 rounded-lg font-bold hover:bg-[#00422c] transition-colors flex items-center gap-2">
+                                담기
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="#all-menu" class="inline-block border-2 border-papa-green text-papa-green font-bold py-3 px-8 rounded-full hover:bg-papa-green hover:text-white transition-colors">
+                    전체 메뉴 보기
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 프로모션 미니 배너 (Event Section Placeholder) -->
+    <section id="event" class="bg-papa-green text-papa-white py-12 px-4">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between bg-[rgba(255,255,255,0.05)] rounded-3xl p-8 md:p-12 border border-[rgba(255,255,255,0.1)]">
+            <div class="mb-6 md:mb-0 text-center md:text-left">
+                <h2 class="text-3xl font-display font-bold mb-2">매주 금요일은 파파존스 데이!</h2>
+                <p class="text-green-200">방문 포장 주문 시 라지 사이즈 피자 1+1 혜택을 드립니다.</p>
+            </div>
+            <button class="bg-papa-white text-papa-green font-bold py-3 px-8 rounded-full hover:bg-gray-100 transition-colors whitespace-nowrap shadow-lg">
+                자세히 보기
+            </button>
+        </div>
+    </section>
+
+    <!-- 4. Footer Section -->
+    <footer id="store" class="bg-papa-dark text-gray-300 py-16 px-4">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
+            <!-- 푸터 로고 및 소개 -->
+            <div class="md:col-span-1">
+                <div class="text-3xl font-display font-bold text-papa-white tracking-wide uppercase mb-6 flex items-center gap-2">
+                    <svg class="w-6 h-6 text-papa-red" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2C10 2 2 12 2 12s2.5 10 10 10 10-10 10-10S14 2 12 2zm0 18c-4.41 0-8-3.59-8-8 0-.41.08-.8.2-1.18L12 19.59l7.8-8.77c.12.38.2.77.2 1.18 0 4.41-3.59 8-8 8z"/>
+                    </svg>
+                    PAPA JOHN'S
+                </div>
+                <p class="text-sm text-gray-400 mb-6">
+                    좋은 재료가 좋은 피자를 만듭니다.<br>더 나은 피자를 위한 파파존스의 약속.
+                </p>
+                <div class="flex space-x-4">
+                    <!-- 소셜 아이콘 플레이스홀더 -->
+                    <a href="#" class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-papa-red transition-colors">
+                        <span class="text-white font-bold text-xs">FB</span>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-papa-red transition-colors">
+                        <span class="text-white font-bold text-xs">IG</span>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-papa-red transition-colors">
+                        <span class="text-white font-bold text-xs">YT</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 고객 서비스 링크 -->
+            <div>
+                <h4 class="text-papa-white font-bold text-lg mb-4">고객지원</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#" class="hover:text-papa-red transition-colors">FAQ</a></li>
+                    <li><a href="#" class="hover:text-papa-red transition-colors">1:1 문의</a></li>
+                    <li><a href="#" class="hover:text-papa-red transition-colors">매장 찾기</a></li>
+                    <li><a href="#" class="hover:text-papa-red transition-colors">단체 주문안내</a></li>
+                </ul>
+            </div>
+
+            <!-- 회사 정보 링크 -->
+            <div>
+                <h4 class="text-papa-white font-bold text-lg mb-4">회사소개</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#" class="hover:text-papa-red transition-colors">브랜드 스토리</a></li>
+                    <li><a href="#" class="hover:text-papa-red transition-colors">창업안내</a></li>
+                    <li><a href="#" class="hover:text-papa-red transition-colors">채용정보</a></li>
+                </ul>
+            </div>
+
+            <!-- 법적 고지 및 연락처 -->
+            <div>
+                <h4 class="text-papa-white font-bold text-lg mb-4">대표전화</h4>
+                <p class="text-3xl font-display font-bold text-papa-red mb-2">1577-8080</p>
+                <p class="text-xs text-gray-500 mt-4 leading-relaxed">
+                    (주)한국파파존스<br>
+                    서울특별시 강남구 언주로<br>
+                    대표이사: OOO | 사업자등록번호: 000-00-00000<br>
+                    통신판매업신고: 제202X-서울강남-0000호<br><br>
+                    &copy; 202X Papa John's. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 모바일 메뉴 스크립트 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const btn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+
+            // 햄버거 버튼 클릭 시 메뉴 토글
+            btn.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+            });
+
+            // 모바일 메뉴 안의 링크 클릭 시 메뉴 닫기
+            const mobileLinks = menu.querySelectorAll('a');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    menu.classList.add('hidden');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
